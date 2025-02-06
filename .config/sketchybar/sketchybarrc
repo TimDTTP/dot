@@ -1,0 +1,88 @@
+#!/bin/bash
+# https://github.com/FelixKratz/dotfiles
+
+source "$HOME/.config/colors.sh"
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+ITEM_DIR="$CONFIG_DIR/items"
+
+##### Bar Appearance #####
+# Configuring the general appearance of the bar.
+# These are only some of the options available. For all options see:
+# https://felixkratz.github.io/SketchyBar/config/bar
+# If you are looking for other colors, see the color picker:
+# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+
+sketchybar --bar position=top     \
+                 height=28        \
+                 padding_left=4   \
+                 padding_right=4  \
+                 y_offset=4 \
+                 color=$COLOR_CLEAR
+
+##### Changing Defaults #####
+# We now change some default values, which are applied to all further items.
+# For a full list of all available item properties see:
+# https://felixkratz.github.io/SketchyBar/config/items
+
+default=(
+  padding_left=5
+  padding_right=5
+  icon.font="SF Pro:Semibold:15.0"
+  label.font="SF Pro:Semibold:12.0"
+  icon.color=$COLOR_FOREGROUND
+  label.color=$COLOR_FOREGROUND
+  icon.padding_left=4
+  icon.padding_right=4
+)
+sketchybar --default "${default[@]}"
+
+##### LEFT SIDE #####
+source "$ITEM_DIR/apple.sh"
+source "$ITEM_DIR/separatorl1.sh"
+source "$ITEM_DIR/aerospace.sh"
+source "$ITEM_DIR/front_app.sh"
+
+##### RIGHT SIDE #####
+source "$ITEM_DIR/calendar.sh"
+source "$ITEM_DIR/separatorr1.sh"
+source "$ITEM_DIR/battery.sh"
+source "$ITEM_DIR/wifi.sh"
+source "$ITEM_DIR/volume.sh"
+
+# inactive
+# 0xff414550
+# -- GROUP APPLE --
+sketchybar --add bracket b.l1 apple.logo apple.logo \
+           --set b.l1 background.color=$COLOR_BACKGROUND \
+                        background.height=28 \
+                        background.corner_radius=14 \
+                        background.border_color=$COLOR_BLACK_BRIGHT \
+                        background.border_width=2
+
+# -- GROUP APPLICATION --
+sketchybar --add bracket b.l2 space.1 front_app \
+           --set b.l2 background.color=$COLOR_BACKGROUND \
+                        background.height=28 \
+                        background.corner_radius=14 \
+                        background.border_color=$COLOR_BLACK_BRIGHT \
+                        background.border_width=2
+
+# -- GROUP CLOCK --
+sketchybar --add bracket b.r1 calendar calendar \
+           --set b.r1 background.color=$COLOR_BACKGROUND \
+                        background.height=28 \
+                        background.corner_radius=14 \
+                        background.border_color=$COLOR_BLACK_BRIGHT \
+                        background.border_width=2
+
+# -- GROUP POWER CONNECTION VOLUME --
+sketchybar --add bracket b.r2 battery volume\
+           --set b.r2 background.color=$COLOR_BACKGROUND \
+                        background.height=28 \
+                        background.corner_radius=14 \
+                        background.border_color=$COLOR_BLACK_BRIGHT \
+                        background.border_width=2
+
+##### Force all scripts to run the first time (never do this in a script) #####
+sketchybar --update
