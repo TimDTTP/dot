@@ -39,4 +39,4 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagn
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- Get current file path
-vim.keymap.set("n", "<leader>cp", ":let @+=expand('%:p:h')<CR>", opts)
+vim.keymap.set("n", "<leader>cp", ":let @+=expand('%:p:h')<CR>", { desc = "[C]opy current [P]ath" })
