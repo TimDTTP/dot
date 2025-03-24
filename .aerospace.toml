@@ -6,14 +6,15 @@
 # Available commands: https://nikitabobko.github.io/AeroSpace/commands
 after-login-command = []
 
-# Run Sketchybar together with AeroSpace
-# sketchbar has a built-in detection of already running process,
-# so it won't be run twice on AeroSpace restart
+# You can use it to add commands that run after AeroSpace startup.
+# 'after-startup-command' is run after 'after-login-command'
+# Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = ['exec-and-forget sketchybar']
 
-# Notify Sketchybar about workspace change
-exec-on-workspace-change = ['/bin/bash', '-c',
-    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+exec-on-workspace-change = [
+    '/bin/bash',
+    '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
 ]
 
 # Start AeroSpace at login
@@ -36,10 +37,6 @@ default-root-container-layout = 'tiles'
 #               tall monitor (anything higher than wide) gets vertical orientation
 default-root-container-orientation = 'auto'
 
-# Possible values: (qwerty|dvorak)
-# See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
-key-mapping.preset = 'qwerty'
-
 # Mouse follows focus when focused monitor changes
 # Drop it from your config, if you don't like this behavior
 # See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
@@ -48,21 +45,30 @@ key-mapping.preset = 'qwerty'
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 on-focus-changed = 'move-mouse window-lazy-center'
 
+# You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
+# Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
+# Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
+automatically-unhide-macos-hidden-apps = false
+
+# Possible values: (qwerty|dvorak)
+# See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
+[key-mapping]
+preset = 'qwerty'
+
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
 # - Constant:     gaps.outer.top = 8
 # - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
 #                 In this example, 24 is a default value when there is no match.
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
-#                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
-
-
+#                 See:
+#                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
 inner.horizontal = 4
 inner.vertical =   4
 outer.left =       8
 outer.bottom =     8
-outer.top =        8
+outer.top = [{ monitor."built-in" = 8 }, 32 ]
 outer.right =      8
 
 # 'main' binding mode declaration
@@ -76,8 +82,9 @@ outer.right =      8
 # - Numbers.        0, 1, 2, ..., 9
 # - Keypad numbers. keypad0, keypad1, keypad2, ..., keypad9
 # - F-keys.         f1, f2, ..., f20
-# - Special keys.   minus, equal, period, comma, slash, backslash, quote, semicolon, backtick,
-#                   leftSquareBracket, rightSquareBracket, space, enter, esc, backspace, tab
+# - Special keys.   minus, equal, period, comma, slash, backslash, quote, semicolon,
+#                   backtick, leftSquareBracket, rightSquareBracket, space, enter, esc,
+#                   backspace, tab
 # - Keypad special. keypadClear, keypadDecimalMark, keypadDivide, keypadEnter, keypadEqual,
 #                   keypadMinus, keypadMultiply, keypadPlus
 # - Arrows.         left, down, up, right
@@ -87,7 +94,8 @@ outer.right =      8
 # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
-# You can uncomment the following lines to open up terminal with alt + enter shortcut (like in i3)
+# You can uncomment the following lines to open up terminal with alt + enter shortcut
+# (like in i3)
 # alt-enter = '''exec-and-forget osascript -e '
 # tell application "Terminal"
 #     do script
@@ -96,8 +104,8 @@ outer.right =      8
 # '''
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
-ctrl-cmd-alt-slash = 'layout tiles horizontal vertical'
-ctrl-cmd-alt-comma = 'layout accordion horizontal vertical'
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
 ctrl-cmd-alt-h = 'focus left'
@@ -110,7 +118,6 @@ ctrl-cmd-alt-shift-h = 'move left'
 ctrl-cmd-alt-shift-j = 'move down'
 ctrl-cmd-alt-shift-k = 'move up'
 ctrl-cmd-alt-shift-l = 'move right'
-
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
 ctrl-cmd-alt-1 = 'workspace 1'
@@ -125,15 +132,15 @@ ctrl-cmd-alt-9 = 'workspace 9' # Terminal
 # In your config, you can drop workspace bindings that you don't need
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-ctrl-cmd-alt-shift-1 = 'move-node-to-workspace 1'
-ctrl-cmd-alt-shift-2 = 'move-node-to-workspace 2'
-ctrl-cmd-alt-shift-3 = 'move-node-to-workspace 3'
-ctrl-cmd-alt-shift-4 = 'move-node-to-workspace 4'
-ctrl-cmd-alt-shift-5 = 'move-node-to-workspace 5' 
-ctrl-cmd-alt-shift-6 = 'move-node-to-workspace 6' # Music
-ctrl-cmd-alt-shift-7 = 'move-node-to-workspace 7' # Browser
-ctrl-cmd-alt-shift-8 = 'move-node-to-workspace 8' # Notes
-ctrl-cmd-alt-shift-9 = 'move-node-to-workspace 9' # Terminal
+ctrl-cmd-alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+ctrl-cmd-alt-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+ctrl-cmd-alt-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+ctrl-cmd-alt-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+ctrl-cmd-alt-shift-5 = 'move-node-to-workspace 5 --focus-follows-window' 
+ctrl-cmd-alt-shift-6 = 'move-node-to-workspace 6 --focus-follows-window' # Music
+ctrl-cmd-alt-shift-7 = 'move-node-to-workspace 7 --focus-follows-window' # Browser
+ctrl-cmd-alt-shift-8 = 'move-node-to-workspace 8 --focus-follows-window' # Notes
+ctrl-cmd-alt-shift-9 = 'move-node-to-workspace 9 --focus-follows-window' # Terminal
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 ctrl-cmd-alt-tab = 'workspace-back-and-forth'
