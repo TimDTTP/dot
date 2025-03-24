@@ -120,6 +120,9 @@ alias nvconfig="~/.config/nvim"
 alias lcpp="~/Documents/Gitted/LearningCPP"
 alias obs="~/Documents/Gitted/SecondBrain"
 
+# Bash scripts
+alias tmux-dev=~/Documents/Utils/bash/scripts/tmux-dev.sh
+
 # Jumps straight into nv with that pwd
 function nvlcpp() {cd ~/Documents/Gitted/LearningCPP && nvim}
 function nvobs() {cd ~/Documents/Gitted/SecondBrain && nvim}
