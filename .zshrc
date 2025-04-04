@@ -110,24 +110,43 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# QOL aliases
-alias nv='nvim '
-alias :q=exit
-alias sb="sketchybar --reload"
+# Set eza config
+unset LS_COLORS
+unset EZA_COLORS
+export EZA_CONFIG_DIR="$HOME/.config/eza"
 
-# File path alias shortcuts
+# Set FZF defaults
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+--color=selected-bg:#45475a \
+--color=border:#313244,label:#cdd6f4"
+
+source <(fzf --zsh)
+
+# Aliases
+alias v="nvim"
+alias vim="nvim"
+alias lg="lazygit"
+alias c="clear"
+alias :q="exit"
+alias sb="sketchybar --reload"
+alias l="eza --icons=auto --color=always --sort=name --group-directories-first" # short
+alias ls="eza -lha --icons=auto --color=always --sort=name --group-directories-first" # long
+alias lt="eza --icons=auto --tree --color=always" # list as tree
+
 alias nvconfig="~/.config/nvim"
 alias lcpp="~/Documents/Gitted/LearningCPP"
 alias obs="~/Documents/Gitted/SecondBrain"
 
-# Bash scripts
-alias tmux-dev=~/Documents/Utils/bash/scripts/tmux-dev.sh
+alias tmux-dev=~/Documents/Utils/bash/scripts/tmux-dev.sh # Open tmux window preset
 
-# Jumps straight into nv with that pwd
-function nvlcpp() {cd ~/Documents/Gitted/LearningCPP && nvim}
-function nvobs() {cd ~/Documents/Gitted/SecondBrain && nvim}
+# Fzf shortcut
+alias fzf="fzf --style full --preview 'fzf-preview.sh {}' --bind 'focus:transform-header:file --brief {}'"
 
-# start ssh agent
+# Start ssh agent
 function sshAgent() {eval "$(ssh-agent -s)"}
 function sshAddGit() {ssh-add ~/.ssh/private/github_auth_id_personalLaptop_timdttp@gmail &&
                       ssh-add ~/.ssh/private/github_sign_id_personalLaptop_timdttp@gmail}
+
