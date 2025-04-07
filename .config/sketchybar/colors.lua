@@ -1,100 +1,38 @@
-local M = {}
+return {
+    default = 0x80ffffff,
+    black = 0xff181819,
+    white = 0xffffffff,
+    red = 0xfffc5d7c,
+    red_bright = 0xe0f38ba8,
+    green = 0xff9ed072,
+    blue = 0xff76cce0,
+    blue_bright = 0xe089b4fa,
+    yellow = 0xffe7c664,
+    orange = 0xfff39660,
+    magenta = 0xffb39df3,
+    grey = 0xff7f8490,
+    transparent = 0x00000000,
 
-local with_alpha = function(color, alpha)
-  if alpha > 1.0 or alpha < 0.0 then
-    return color
-  end
-  return (color & 0x00ffffff) | (math.floor(alpha * 255.0) << 24)
-end
+    bar = {
+        bg = 0x00000000,
+        border = 0xff2c2e34,
+    },
 
-local transparent = 0x00000000
+    popup = {
+        bg = 0xFF1d1b2d,
+        border = 0xff7f8490
+    },
 
-local rp_moon = {
-  base = 0xff232136,
-  surface = 0xff2a273f,
-  overlay = 0xff393552,
-  muted = 0xff6e6a86,
-  subtle = 0xff908caa,
-  text = 0xffe0def4,
-  love = 0xffeb6f92,
-  gold = 0xfff6c177,
-  rose = 0xffea9a97,
-  iris = 0xffc4a7e7,
-  pine = 0xff3e8fb0,
-  foam = 0xff9ccfd8,
-  highlight_low = 0xff21202e,
-  highlight_med = 0xff44415a,
+    bg1 = 0xFF1d1b2d,
+    bg2 = 0xe0313436,
+
+    accent = 0xFFb482c2,
+    accent_bright = 0x33efc2fc,
+
+    spotify_green = 0xe040a02b,
+
+    with_alpha = function(color, alpha)
+        if alpha > 1.0 or alpha < 0.0 then return color end
+        return (color & 0x00ffffff) | (math.floor(alpha * 255.0) << 24)
+    end,
 }
-
-local rp = {
-  base = 0xff191724,
-  surface = 0xff1f1d2e,
-  overlay = 0xff26233a,
-  muted = 0xff6e6a86,
-  subtle = 0xff908caa,
-  text = 0xffe0def4,
-  love = 0xffeb6f92,
-  gold = 0xfff6c177,
-  rose = 0xffebbcba,
-  iris = 0xffc4a7e7,
-  pine = 0xff31748f,
-  foam = 0xff9ccfd8,
-  highlight_low = 0xff21202e,
-  highlight_med = 0xff403d52,
-  highlight_high = 0xff524f67,
-}
-
-local theme = rp
-
-M.sections = {
-  bar = {
-    bg = with_alpha(rp_moon.overlay, 0.6),
-    border = theme.highlight_low,
-  },
-  item = {
-    bg = theme.overlay,
-    border = theme.base,
-    text = theme.text,
-  },
-  apple = theme.rose,
-  spaces = {
-    icon = {
-      color = theme.subtle,
-      highlight = theme.text,
-    },
-    label = {
-      color = theme.subtle,
-      highlight = theme.gold,
-    },
-    indicator = theme.iris,
-  },
-  media = {
-    label = theme.subtle,
-  },
-  widgets = {
-    battery = {
-      low = theme.love,
-      mid = theme.gold,
-      high = theme.pine,
-    },
-    wifi = { icon = theme.rose },
-    volume = {
-      icon = theme.foam,
-      popup = {
-        item = theme.subtle,
-        highlight = theme.text,
-      },
-      slider = {
-        highlight = theme.foam,
-        bg = theme.highlight_med,
-        border = theme.highlight_low,
-      },
-    },
-    messages = { icon = theme.love },
-  },
-  calendar = {
-    label = theme.subtle,
-  },
-}
-
-return M

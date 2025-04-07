@@ -1,84 +1,86 @@
-local icons = require "icons"
-local colors = require("colors").sections.media
+local icons = require("icons")
+local colors = require("colors")
+local settings = require("settings")
+local whitelist = {
+    ["Google Chrome"] = true,
+    ["Firefox"] = true,
+    ["Music"] = true,
+    ["Plexamp"] = true,
+    ["Safari"] = true,
+    ["Spotify"] = true,
+}
 
-local whitelist = { ["Spotify"] = true, ["Music"] = true }
+-- Function to get the appropriate background color based on media app
+local function get_media_app_color(app_name)
+    if app_name == "Music" then
+        return colors.red_bright
+    elseif app_name == "Plexamp" then
+        return colors.yellow
+    elseif app_name == "Spotify" then
+        return colors.spotify_green
+    elseif app_name == "Safari" or app_name == "Firefox" or app_name == "Google Chrome" then
+        return colors.blue_bright
+    else
+        return colors.default
+    end
+end
 
-local media_playback = sbar.add("item", {
-  position = "right",
-  icon = {
-    max_chars = 50,
-    padding_left = 8,
-  },
-  label = {
-    string = icons.separators.left .. " " .. icons.music,
-    padding_right = 8,
-    color = colors.label,
-  },
-  popup = {
-    horizontal = true,
-    align = "center",
-    y_offset = 2,
-  },
-  padding_right = 8,
+local now_playing = sbar.add("item", {
+    position = "right",
+    drawing = false,
+    background = {
+        color = colors.spotify_green,
+    },
+    icon = {
+        padding_left = settings.padding.icon_label_item.icon.padding_left,
+        padding_right = settings.padding.icon_label_item.icon.padding_right,
+        string = '󰐌',
+    },
+    label = {
+        highlight = false,
+        padding_left = settings.padding.icon_label_item.label.padding_left,
+        padding_right = settings.padding.icon_label_item.label.padding_right,
+    },
+    popup = { align = "center" }
 })
 
-sbar.add("item", {
-  position = "popup." .. media_playback.name,
-  padding_left = 6,
-  padding_right = 6,
-  icon = { string = icons.media.back },
-  label = { drawing = false },
-  background = { drawing = false },
-  click_script = "nowplaying-cli previous",
-})
-sbar.add("item", {
-  position = "popup." .. media_playback.name,
-  padding_left = 6,
-  padding_right = 6,
-  icon = { string = icons.media.play_pause },
-  label = { drawing = false },
-  background = { drawing = false },
-  click_script = "nowplaying-cli togglePlayPause",
-})
-sbar.add("item", {
-  position = "popup." .. media_playback.name,
-  padding_left = 6,
-  padding_right = 6,
-  icon = { string = icons.media.forward },
-  label = { drawing = false },
-  background = { drawing = false },
-  click_script = "nowplaying-cli next",
-})
+-- Previous state tracking to detect when media starts playing
+local was_playing = false
 
-media_playback:subscribe("media_change", function(env)
-  if whitelist[env.INFO.app] then
-    local drawing = (env.INFO.state == "playing")
-    media_playback:set { drawing = drawing, icon = env.INFO.artist .. " - " .. env.INFO.title }
-  end
+now_playing:subscribe("media_change", function(env)
+    if whitelist[env.INFO.app] then
+        local is_playing = (env.INFO.state == "playing")
+        local app_color = get_media_app_color(env.INFO.app)
+
+        -- Check if we're transitioning from not playing to playing
+        local started_playing = (not was_playing and is_playing)
+
+        now_playing:set({
+            background = { color = app_color },
+            drawing = is_playing,
+            label = { string = env.INFO.title .. " - " .. env.INFO.artist },
+        })
+
+        -- Add animation when media starts playing
+        if started_playing then
+            -- Animate the item with a subtle fade-in
+            now_playing:animate("sin", 10, function()
+                now_playing:set({
+                    background = { color = app_color .. "aa" }, -- Add transparency
+                })
+            end, function()
+                now_playing:set({
+                    background = { color = app_color }, -- Back to normal
+                })
+            end)
+        end
+
+        -- Update the state tracker
+        was_playing = is_playing
+    end
 end)
 
-media_playback:subscribe("mouse.clicked", function(_)
-  sbar.animate("tanh", 8, function()
-    media_playback:set {
-      background = {
-        shadow = {
-          distance = 0,
-        },
-      },
-      y_offset = -4,
-      padding_left = 8,
-      padding_right = 4,
-    }
-    media_playback:set {
-      background = {
-        shadow = {
-          distance = 4,
-        },
-      },
-      y_offset = 0,
-      padding_left = 4,
-      padding_right = 8,
-    }
-  end)
-  media_playback:set { popup = { drawing = "toggle" } }
+-- Make sure the item is updated when sketchybar starts
+now_playing:subscribe("system_woke", function(env)
+    sbar.trigger("media_change")
 end)
