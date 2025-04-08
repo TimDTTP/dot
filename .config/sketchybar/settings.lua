@@ -14,7 +14,7 @@ return {
 	font_icon = {
 		text = "Hack Nerd Font",
 		numbers = "Hack Nerd Font",
-		size = 13.0,
+		size = 14.0,
 		style_map = {
 			["Regular"] = "Regular",
 			["Semibold"] = "Semibold",
