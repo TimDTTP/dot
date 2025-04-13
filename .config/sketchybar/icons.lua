@@ -9,6 +9,11 @@ local icons = {
 		cpu = "􀫥",
 		clipboard = "􀉄",
 
+		layout = {
+			missing = "􀿩",
+			graphite = "􀺑",
+			qwerty = "􀇳",
+		},
 		switch = {
 			on = "􁏮",
 			off = "􁏯",
