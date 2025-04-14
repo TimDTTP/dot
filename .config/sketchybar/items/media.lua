@@ -15,6 +15,7 @@ local now_playing = sbar.add("item", {
 	drawing = false,
 	background = {
 		color = colors.bg1,
+		drawing = false,
 	},
 	icon = {
 		padding_left = settings.padding.icon_label_item.icon.padding_left,
@@ -39,7 +40,7 @@ local was_playing = false
 now_playing:subscribe("media_change", function(env)
 	if whitelist[env.INFO.app] then
 		local is_playing = (env.INFO.state == "playing")
-		local app_color = bg1
+		local app_color = colors.bar.bg
 
 		-- Check if we're transitioning from not playing to playing
 		local started_playing = (not was_playing and is_playing)
@@ -50,18 +51,18 @@ now_playing:subscribe("media_change", function(env)
 		})
 
 		-- Add animation when media starts playing
-		if started_playing then
-			-- Animate the item with a subtle fade-in
-			now_playing:animate("sin", 10, function()
-				now_playing:set({
-					background = { color = app_color .. "aa" }, -- Add transparency
-				})
-			end, function()
-				now_playing:set({
-					background = { color = app_color }, -- Back to normal
-				})
-			end)
-		end
+		-- if started_playing then
+		-- 	-- Animate the item with a subtle fade-in
+		-- 	now_playing:animate("sin", 10, function()
+		-- 		now_playing:set({
+		-- 			background = { color = app_color .. "aa" }, -- Add transparency
+		-- 		})
+		-- 	end, function()
+		-- 		now_playing:set({
+		-- 			background = { color = app_color }, -- Back to normal
+		-- 		})
+		-- 	end)
+		-- end
 
 		-- Update the state tracker
 		was_playing = is_playing

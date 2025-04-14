@@ -32,6 +32,8 @@ local icons = {
 			_25 = "􀛩",
 			_0 = "􀛪",
 			charging = "􀢋",
+			bolt = "􀋦",
+			plug = "􂬺",
 		},
 		wifi = {
 			upload = "􀄨",

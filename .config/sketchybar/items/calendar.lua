@@ -18,6 +18,7 @@ local cal = sbar.add("item", {
 		},
 		padding_right = 10,
 	},
+	background = { drawing = false },
 	position = "right",
 	update_freq = 30,
 	padding_left = 1,
