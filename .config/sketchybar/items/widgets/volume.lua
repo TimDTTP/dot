@@ -7,7 +7,7 @@ local volume_icon = sbar.add("item", "widgets.volume", {
 	position = "right",
 	icon = {
 		color = colors.text,
-		padding_right = 8,
+		padding_right = 6,
 	},
 	label = { drawing = false },
 	background = { drawing = false },
@@ -125,3 +125,5 @@ end
 volume_icon:subscribe("mouse.clicked", volume_toggle_details)
 volume_icon:subscribe("mouse.exited.global", volume_collapse_details)
 volume_icon:subscribe("mouse.scrolled", volume_scroll)
+
+-- sbar.add("bracket", { "widgets.volume" }, {})
