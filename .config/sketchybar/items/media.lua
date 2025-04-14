@@ -14,7 +14,7 @@ local now_playing = sbar.add("item", {
 	position = "e",
 	drawing = false,
 	background = {
-		color = colors.bg1,
+		color = colors.bar.bg,
 		drawing = false,
 	},
 	icon = {
