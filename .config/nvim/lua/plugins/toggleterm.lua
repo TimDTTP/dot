@@ -5,7 +5,7 @@ return {
 		direction = "float",
 		float_opts = {
 			border = "curved",
-			winblend = 15,
+			winblend = 0,
 			width = 130,
 			height = 30,
 		},
