@@ -1,0 +1,5 @@
+require("items.widgets.volume")
+require("items.widgets.wifi")
+require("items.widgets.layout")
+require("items.widgets.battery")
+-- require("items.widgets.bracket1")
