@@ -118,12 +118,21 @@ unset EZA_COLORS
 export EZA_CONFIG_DIR="$HOME/.config/eza"
 
 # Set FZF defaults
+export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS=" \
 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
 --color=selected-bg:#45475a \
---color=border:#313244,label:#cdd6f4"
+--color=border:#313244,label:#cdd6f4
+--bind=ctrl-k:up,ctrl-j:down
+"
+
+# Preview file content using bat (https://github.com/sharkdp/bat)
+# export FZF_CTRL_T_OPTS="
+#   --walker-skip .git,node_modules,target
+#   --preview 'bat -n --color=always {}'
+#   --bind 'ctrl-/:change-preview-window(down|hidden|)'"
 
 source <(fzf --zsh)
 
@@ -145,7 +154,7 @@ alias obs="~/Documents/Gitted/SecondBrain"
 alias tmux-dev=~/Documents/Utils/bash/scripts/tmux-dev.sh # Open tmux window preset
 
 # Fzf shortcut
-alias fzf="fzf --style full --preview 'fzf-preview.sh {}' --bind 'focus:transform-header:file --brief {}'"
+# alias fzf="fzf --style full --preview 'fzf-preview.sh {}' --bind 'focus:transform-header:file --brief {}'"
 
 # Start ssh agent
 function sshAgent() {eval "$(ssh-agent -s)"}
